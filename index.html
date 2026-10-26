@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dantas TechSimulados - Concursos de Nível Técnico</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        },
+                        darkbg: '#0f172a',
+                        darkcard: '#1e293b',
+                        darkborder: '#334155'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-darkbg text-gray-800 dark:text-gray-100 min-h-screen flex flex-col transition-colors duration-200 pb-20 md:pb-0">
+
+    <!-- NAV BAR -->
+    <nav class="bg-white dark:bg-darkcard border-b border-gray-200 dark:border-darkborder sticky top-0 z-30 transition-colors">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center space-x-2 sm:space-x-3 cursor-pointer" onclick="switchTab('dashboard')">
+                    <div class="bg-gradient-to-tr from-brand-600 to-emerald-400 p-2 sm:p-2.5 rounded-xl shadow-lg shadow-brand-500/20 text-white">
+                        <i class="fa-solid me-0.5 fa-microchip text-lg sm:text-xl"></i>
+                    </div>
+                    <div>
+                        <span class="text-lg sm:text-xl font-extrabold tracking-tight bg-gradient-to-r from-brand-600 via-emerald-500 to-teal-400 bg-clip-text text-transparent">DANTAS</span>
+                        <span class="text-[10px] sm:text-xs font-semibold px-1.5 sm:px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900/40 text-brand-700 dark:text-brand-400 ml-1">TechSimulados</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation Links -->
+                <div class="hidden md:flex items-center space-x-1">
+                    <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium transition-all text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-900/30">
+                        <i class="fa-solid fa-chart-pie mr-2"></i>Dashboard
+                    </button>
+                    <button onclick="switchTab('simulados')" id="nav-simulados" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all">
+                        <i class="fa-solid fa-list-check mr-2"></i>Simulados
+                    </button>
+                    <button onclick="switchTab('semana')" id="nav-semana" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all">
+                        <i class="fa-solid fa-calendar-week mr-2"></i>Minha Semana
+                    </button>
+                    <button onclick="switchTab('guia')" id="nav-guia" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all">
+                        <i class="fa-solid fa-compass mr-2"></i>Guia de Estudos
+                    </button>
+                    <button onclick="switchTab('ranking')" id="nav-ranking" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all">
+                        <i class="fa-solid fa-trophy mr-2"></i>Benchmark
+                    </button>
+                </div>
+
+                <!-- Right Actions -->
+                <div class="flex items-center space-x-2 sm:space-x-3">
+                    <!-- Toggle Theme -->
+                    <button onclick="toggleTheme()" class="p-2 rounded-xl text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-gray-100 dark:bg-gray-800 transition-colors" title="Alternar Tema">
+                        <i id="theme-icon" class="fa-solid fa-moon"></i>
+                    </button>
+
+                    <!-- Profile Button -->
+                    <div onclick="openProfileModal()" class="flex items-center space-x-2 p-1.5 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer border border-gray-200 dark:border-gray-700 transition-colors">
+                        <div class="w-8 h-8 rounded-lg bg-brand-500 flex items-center justify-center text-white font-bold text-sm" id="user-avatar-initials">
+                            DT
+                        </div>
+                        <div class="hidden sm:block text-left pr-1">
+                            <div class="text-xs font-bold leading-tight text-gray-800 dark:text-gray-200" id="user-display-name">Candidato Tech</div>
+                            <div class="text-[10px] text-brand-600 dark:text-brand-400 font-medium" id="user-display-specialty">Eletrônica</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6">
+
+        <!-- ================= PAGE 1: DASHBOARD ================= -->
+        <section id="tab-dashboard" class="tab-content space-y-4 sm:space-y-6">
+            <!-- Banner / Header -->
+            <div class="bg-gradient-to-r from-gray-900 via-slate-800 to-brand-950 p-5 sm:p-8 rounded-2xl text-white shadow-xl relative overflow-hidden border border-gray-700 text-center sm:text-left">
+                <div class="absolute -right-10 -bottom-10 opacity-10 text-emerald-400 text-9xl font-black pointer-events-none">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div class="relative z-10 max-w-2xl space-y-2 mx-auto sm:mx-0">
+                    <span class="inline-block px-3 py-1 bg-brand-500/20 text-brand-400 border border-brand-500/30 rounded-full text-[11px] sm:text-xs font-semibold uppercase tracking-wider">
+                        Painel do Concurseiro Técnico
+                    </span>
+                    <h1 class="text-xl sm:text-3xl font-extrabold tracking-tight leading-snug">
+                        Evolução em Foco: <span id="dash-user-specialty" class="block sm:inline text-brand-400">Técnico em Eletrônica</span>
+                    </h1>
+                    <p class="text-gray-300 text-xs sm:text-sm">
+                        Acompanhe seu desempenho em simulados específicos para Transpetro, Eletronuclear, NUCLEP e Eletrobras/Furnas.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Global Stats Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+                <!-- Card 1 -->
+                <div class="bg-white dark:bg-darkcard p-4 sm:p-5 rounded-2xl border border-gray-200 dark:border-darkborder shadow-sm flex items-center space-x-4">
+                    <div class="p-3 sm:p-3.5 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-xl flex-shrink-0">
+                        <i class="fa-solid fa-chart-line text-xl sm:text-2xl"></i>
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <div class="text-[11px] sm:text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase truncate">Aproveitamento</div>
+                        <div class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white truncate" id="stat-taxa-geral">0.0%</div>
+                        <div class="text-[10px] sm:text-[11px] text-gray-400 mt-0.5 truncate">Média geral de acertos</div>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-white dark:bg-darkcard p-4 sm:p-5 rounded-2xl border border-gray-200 dark:border-darkborder shadow-sm flex items-center space-x-4">
+                    <div class="p-3 sm:p-3.5 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-xl flex-shrink-0">
+                        <i class="fa-solid fa-file-signature text-xl sm:text-2xl"></i>
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <div class="text-[11px] sm:text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase truncate">Simulados Feitos</div>
+                        <div class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white truncate" id="stat-simulados-concluidos">0</div>
+                        <div class="text-[10px] sm:text-[11px] text-gray-400 mt-0.5 truncate">Provas finalizadas</div>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="bg-white dark:bg-darkcard p-4 sm:p-5 rounded-2xl border border-gray-200 dark:border-darkborder shadow-sm flex items-center space-x-4">
+                    <div class="p-3 sm:p-3.5 bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 rounded-xl flex-shrink-0">
+                        <i class="fa-solid fa-list-ol text-xl sm:text-2xl"></i>
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <div class="text-[11px] sm:text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase truncate">Questões Feitas</div>
+                        <div class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white truncate" id="stat-total-questoes">0</div>
+                        <div class="text-[10px] sm:text-[11px] text-gray-400 mt-0.5 truncate">Respondidas no total</div>
+                    </div>
+                </div>
+                <!-- Card 4 -->
+                <div class="bg-white dark:bg-darkcard p-4 sm:p-5 rounded-2xl border border-gray-200 dark:border-darkborder shadow-sm flex items-center space-x-4">
+                    <div class="p-3 sm:p-3.5 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-xl flex-shrink-0">
+                        <i class="fa-solid fa-clock text-xl sm:text-2xl"></i>
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <div class="text-[11px] sm:text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase truncate">Tempo de Prova</div>
+                        <div class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white truncate" id="stat-horas-estudo">00h 00m</div>
+                        <div class="text-[10px] sm:text-[11px] text-gray-400 mt-0.5 truncate">Acumulado no app</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Action & Recent History Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+                <!-- Recommended Simulado -->
+                <div class="bg-white dark:bg-darkcard p-5 sm:p-6 rounded-2xl border border-gray-200 dark:border-darkborder shadow-sm space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-bold text-base sm:text-lg text-gray-900 dark:text-white">Próximo Recomendado</h3>
+                        <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-brand-100 dark:bg-brand-900/40 text-brand-700 dark:text-brand-300">Oficial</span>
+                    </div>
+                    <div class="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-200/60 dark:border-gray-700 space-y-3">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">TRANSPETRO</span>
+                                <h4 class="font-bold text-gray-900 dark:text-white text-sm sm:text-base">Técnico de Manutenção - Eletrônica</h4>
+                            </div>
+                            <span class="text-xs font-medium px-2 py-0.5 rounded bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 flex-shrink-0 ml-2">60 Qs</span>
+                        </div>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">Banca Cesgranrio - Foco em Instrumentação, Circuitos Digitais e Sistemas Microcontrolados.</p>
+                        <button onclick="startSimulado('transpetro', 'Eletrônica')" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl text-sm transition-all shadow-md shadow-brand-600/20 flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-play text-xs"></i>
+                            <span>Iniciar Simulado Agora</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Recent Activity List -->
+                <div class="lg:col-span-2 bg-white dark:bg-darkcard p-5 sm:p-6 rounded-2xl border border-gray-200 dark:border-darkborder shadow-sm flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-bold text-base sm:text-lg text-gray-900 dark:text-white">Histórico de Simulados</h3>
+                            <button onclick="switchTab('simulados')" class="text-xs text-brand-600 dark:text-brand-400 font-semibold hover:underline">Ver Todos</button>
+                        </div>
+                        <div id="dashboard-history-list" class="space-y-3">
+                            <div class="text-center py-8 text-gray-400 text-sm">
+                                <i class="fa-regular fa-folder-open text-3xl mb-2 block"></i>
+                                Nenhum simulado realizado ainda. Comece agora!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 2: CATALOGO SIMULADOS ================= -->
+        <section id="tab-simulados" class="tab-content hidden space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl font-extrabold text-gray-900 dark:text-white">Catálogo de Simulados por Instituição</h2>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Selecione o órgão desejado e personalize por especialidade técnica.</p>
+                </div>
+            </div>
+
+            <!-- Cards Grid for Institutions -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- TRANSPETRO -->
+                <div class="bg-white dark:bg-darkcard rounded-2xl border border-gray-200 dark:border-darkborder p-6 space-y-4 shadow-sm hover:border-brand-500 transition-colors">
+                    <div class="flex justify-between items-start">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-black text-xl">TP</div>
+                            <div>
+                                <h3 class="font-extrabold text-lg text-gray-900 dark:text-white">Transpetro</h3>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">Banca Cesgranrio - Nível Técnico</p>
+                            </div>
+                        </div>
+                        <span class="text-xs font-semibold px-2.5 py-1 bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300 rounded-full border border-emerald-200 dark:border-emerald-800">60 Questões</span>
+                    </div>
+                    <div class="text-xs text-gray-600 dark:text-gray-300 space-y-1">
+                        <p><i class="fa-solid fa-check text-brand-500 mr-1.5"></i>10 Qs Língua Portuguesa</p>
+                        <p><i class="fa-solid fa-check text-brand-500 mr-1.5"></i>10 Qs Matemática & RLM</p>
+                        <p><i class="fa-solid fa-check text-brand-500 mr-1.5"></i>40 Qs Conhecimentos Específicos</p>
+                        <p><i class="fa-solid fa-clock text-amber-500 mr-1.5"></i>Tempo Recomendado: 4h 00m</p>
+                    </div>
+                    <div class="pt-2 flex gap-2">
+                        <button onclick="openSpecialtyModal('transpetro')" class="flex-1 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl text-sm transition-all shadow-md shadow-brand-600/20 flex items-center justify-center space-x-2">
+                            <span>Selecionar Especialidade</span>
+                            <i class="fa-solid fa-chevron-right text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ELETRONUCLEAR -->
+                <div class="bg-white dark:bg-darkcard rounded-2xl border border-gray-200 dark:border-darkborder p-6 space-y-4 shadow-sm hover:border-brand-500 transition-colors">
+                    <div class="flex justify-between items-start">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 flex items-center justify-center font-black text-xl">EN</div>
+                            <div>
+                                <h3 class="font-extrabold text-lg text-gray-900 dark:text-white">Eletronuclear</h3>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">Banca FGV / Seleção Operacional</p>
+                            </div>
+                        </div>
+                        <span class="text-xs font-semibold px-2.5 py-1 bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 rounded-full border border-blue-200 dark:border-blue-800">50 Questões</span>
+                    </div>
+                    <div class="text-xs text-gray-600 dark:text-gray-300 space-y-1">
+                        <p><i class="fa-solid fa-check text-brand-500 mr-1.5"></i>15 Qs Língua Portuguesa & RLM</p>
+                        <p><i class="fa-solid fa-check text-brand-500 mr-1.5"></i>35 Qs Específicas + Normas de Segurança</p>
+                        <p><i class="fa-solid fa-clock text-amber-500 mr-1.5"></i>Tempo Recomendado: 3h 30m</p>
+                    </div>
+                    <div class="pt-2 flex gap-2">
+                        <button onclick="openSpecialtyModal('eletronuclear')" class="flex-1 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl text-sm transition-all shadow-md shadow-brand-600/20 flex items-center justify-center space-x-2">
+                            <span>Selecionar Especialidade</span>
+                            <i class="fa-solid fa-chevron-right text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- NUCLEP -->
+                <div class="bg-white dark:bg-darkcard rounded-2xl border border-gray-200 dark:border-darkborder p-6 space-y-4 shadow-sm hover:border-brand-500 transition-colors">
+                    <div class="flex justify-between items-start">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-400 flex items-center justify-center font-black text-xl">NP</div>
+                            <div>
+                                <h3 class="font-extrabold text-lg text-gray-900 dark:text-white">NUCLEP</h3>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">Nuclebrás Equipamentos Pesados S.A.</p>
+                            </div>
+                        </div>
+                        <span class="text-xs font-semibold px-2.5 py-1 bg-purple-50 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300 rounded-full border border-purple-200 dark:border-purple-800">50 Questões</span>
+                    </div>
+                    <div class="text-xs text-gray-600 dark:text-gray-300 space-y-1">
+                        <p><i class="fa-solid fa-check text-brand-500 mr-1.5"></i>20 Qs Português e RLM Técnico</p>
+                        <p><i class="fa-solid fa-check text-brand-500 mr-1.5"></i>30 Qs Específicas do Cargo</p>
+                        <p><i class="fa-solid fa-clock text-amber-500 mr-1.5"></i>Tempo Recomendado: 3h 30m</p>
+                    </div>
+                    <div class="pt-2 flex gap-2">
+                        <button onclick="openSpecialtyModal('nuclep')" class="flex-1 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl text-sm transition-all shadow-md shadow-brand-600/20 flex items-center justify-center space-x-2">
+                            <span>Selecionar Especialidade</span>
+                            <i class="fa-solid fa-chevron-right text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ELETROBRAS / FURNAS -->
+                <div class="bg-white dark:bg-darkcard rounded-2xl border border-gray-200 dark:border-darkborder p-6 space-y-4 shadow-sm hover:border-brand-500 transition-colors">
+                    <div class="flex justify-between items-start">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 rounded-xl bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400 flex items-center justify-center font-black text-xl">EB</div>
+                            <div>
+                                <h3 class="font-extrabold text-lg text-gray-900 dark:text-white">Eletrobras / Furnas</h3>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">Setor Elétrico e Geração</p>
+                            </div>
+                        </div>
+                        <span class="text-xs font-semibold px-2.5 py-1 bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300 rounded-full border border-amber-200 dark:border-amber-800">60 Questões</span>
+                    </div>
+                    <div class="text-xs text-gray-600 dark:text-gray-300 space-y-1">
+                        <p><i class="fa-solid fa-check text-brand-500 mr-1.5"></i>15 Qs Português / Legislação do Setor Elétrico</p>
+                        <p><i class="fa-solid fa-check text-brand-500 mr-1.5"></i>45 Qs Específicas de Operação e Manutenção</p>
+                        <p><i class="fa-solid fa-clock text-amber-500 mr-1.5"></i>Tempo Recomendado: 4h 00m</p>
+                    </div>
+                    <div class="pt-2 flex gap-2">
+                        <button onclick="openSpecialtyModal('eletrobras')" class="flex-1 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl text-sm transition-all shadow-md shadow-brand-600/20 flex items-center justify-center space-x-2">
+                            <span>Selecionar Especialidade</span>
+                            <i class="fa-solid fa-chevron-right text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 3: MINHA SEMANA ================= -->
+        <section id="tab-semana" class="tab-content hidden space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl font-extrabold text-gray-900 dark:text-white">Acompanhamento Semanal</h2>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Evolução do seu ritmo de treino de Segunda a Domingo.</p>
+                </div>
+                <button onclick="resetWeeklyData()" class="self-start text-xs text-red-500 hover:text-red-700 font-semibold border border-red-200 dark:border-red-900 px-3 py-1.5 rounded-lg bg-red-50 dark:bg-red-900/20">
+                    <i class="fa-solid fa-rotate-right mr-1"></i> Reiniciar Ciclo Semanal
+                </button>
+            </div>
+
+            <!-- Resumo Semanal Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white dark:bg-darkcard p-5 rounded-2xl border border-gray-200 dark:border-darkborder shadow-sm">
+                    <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Questões Respondidas no Ciclo</div>
+                    <div class="text-3xl font-extrabold text-gray-900 dark:text-white mt-2" id="semana-total-questoes">0</div>
+                    <div class="text-xs text-gray-400 mt-1">Registradas em simulados finalizados</div>
+                </div>
+                <div class="bg-white dark:bg-darkcard p-5 rounded-2xl border border-gray-200 dark:border-darkborder shadow-sm">
+                    <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Tempo de Resolução Na Semana</div>
+                    <div class="text-3xl font-extrabold text-gray-900 dark:text-white mt-2" id="semana-total-tempo">00h 00m</div>
+                    <div class="text-xs text-gray-400 mt-1">Horas dedicadas a simulados no ciclo</div>
+                </div>
+                <div class="bg-white dark:bg-darkcard p-5 rounded-2xl border border-gray-200 dark:border-darkborder shadow-sm">
+                    <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Aproveitamento Semanal</div>
+                    <div class="text-3xl font-extrabold text-brand-600 dark:text-brand-400 mt-2" id="semana-taxa-acerto">0.0%</div>
+                    <div class="text-xs text-gray-400 mt-1">Acertos em relação ao total da semana</div>
+                </div>
+            </div>
+
+            <!-- Dias da Semana Cards Grid -->
+            <div class="bg-white dark:bg-darkcard p-6 rounded-2xl border border-gray-200 dark:border-darkborder shadow-sm space-y-4">
+                <h3 class="font-bold text-lg text-gray-900 dark:text-white">Registro Diário de Atividades</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-3" id="week-days-grid"></div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 4: GUIA DE ESTUDOS ================= -->
+        <section id="tab-guia" class="tab-content hidden space-y-6">
+            <div>
+                <h2 class="text-2xl font-extrabold text-gray-900 dark:text-white">Guia de Estudos & Diagnóstico Automatizado</h2>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Análise inteligente de pontos fracos e estratégias validadas para concursos técnicos.</p>
+            </div>
+
+            <div class="bg-white dark:bg-darkcard p-6 rounded-2xl border border-gray-200 dark:border-darkborder shadow-sm space-y-4">
+                <div class="flex items-center space-x-3">
+                    <div class="p-2.5 bg-brand-100 dark:bg-brand-900/40 text-brand-600 dark:text-brand-400 rounded-xl">
+                        <i class="fa-solid fa-brain text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-extrabold text-gray-900 dark:text-white">Diagnóstico de Performance Personalizado</h3>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">Gerado automaticamente com base nos simulados concluídos.</p>
+                    </div>
+                </div>
+                <div id="diagnostico-container" class="mt-4"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white dark:bg-darkcard p-6 rounded-2xl border border-gray-200 dark:border-darkborder shadow-sm space-y-3">
+                    <div class="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center text-lg font-bold">
+                        <i class="fa-solid fa-rotate-left"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-900 dark:text-white text-base">Engenharia Reversa</h4>
+                    <p class="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">Em vez de ler resumos teóricos extensos, resolva os simulados primeiro e estude apenas o ponto de falha.</p>
+                </div>
+                <div class="bg-white dark:bg-darkcard p-6 rounded-2xl border border-gray-200 dark:border-darkborder shadow-sm space-y-3">
+                    <div class="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 flex items-center justify-center text-lg font-bold">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-900 dark:text-white text-base">Peso das Específicas</h4>
+                    <p class="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">Em provas técnicas, as questões de Específica possuem peso superior. Mantenha 65% da carga semanal dedicada à sua formação.</p>
+                </div>
+                <div class="bg-white dark:bg-darkcard p-6 rounded-2xl border border-gray-200 dark:border-darkborder shadow-sm space-y-3">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg font-bold">
+                        <i class="fa-solid fa-repeat"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-900 dark:text-white text-base">Revisão Espaçada</h4>
+                    <p class="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">Revise as questões que errou no simulado 24 horas, 7 dias e 30 dias após o teste para fixar na memória.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 5: BENCHMARK / RANKING ================= -->
+        <section id="tab-ranking" class="tab-content hidden space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl font-extrabold text-gray-900 dark:text-white">Tabela de Benchmark & Histórico de Aprovados</h2>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Notas de corte reais e desempenho médio de aprovados em concursos anteriores.</p>
+                </div>
+                <select id="benchmark-filter" onchange="renderBenchmarkTable()" class="bg-white dark:bg-darkcard border border-gray-300 dark:border-darkborder text-gray-800 dark:text-gray-200 rounded-xl text-xs px-3 py-2 font-semibold">
+                    <option value="ALL">Todas as Instituições</option>
+                    <option value="transpetro">Transpetro</option>
+                    <option value="eletronuclear">Eletronuclear</option>
+                    <option value="nuclep">NUCLEP</option>
+                    <option value="eletrobras">Eletrobras/Furnas</option>
+                </select>
+            </div>
+
+            <div class="bg-white dark:bg-darkcard rounded-2xl border border-gray-200 dark:border-darkborder overflow-hidden shadow-sm">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                        <thead>
+                            <tr class="bg-gray-50 dark:bg-gray-800/60 text-gray-500 dark:text-gray-400 uppercase tracking-wider font-bold border-b border-gray-200 dark:border-darkborder">
+                                <th class="p-4">Concurso / Ano</th>
+                                <th class="p-4">Cargo / Especialidade</th>
+                                <th class="p-4 text-center">Nota de Corte (1º Lugar)</th>
+                                <th class="p-4 text-center">Nota de Corte (CR)</th>
+                                <th class="p-4 text-center">Banca</th>
+                            </tr>
+                        </thead>
+                        <tbody id="benchmark-tbody" class="divide-y divide-gray-200 dark:divide-darkborder text-gray-700 dark:text-gray-300 font-medium"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SIMULADO RUNNER ================= -->
+        <section id="tab-runner" class="tab-content hidden space-y-6">
+            <div class="bg-white dark:bg-darkcard p-4 sm:p-6 rounded-2xl border border-gray-200 dark:border-darkborder shadow-md flex flex-wrap items-center justify-between gap-4 sticky top-20 z-20">
+                <div>
+                    <span id="runner-inst-badge" class="px-2.5 py-0.5 text-xs font-bold rounded-full bg-brand-100 text-brand-700 dark:bg-brand-900/40 dark:text-brand-300">TRANSPETRO</span>
+                    <h2 id="runner-title" class="text-xl font-extrabold text-gray-900 dark:text-white mt-1">Simulado Técnico</h2>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2 bg-gray-100 dark:bg-gray-800 px-3.5 py-2 rounded-xl border border-gray-200 dark:border-gray-700">
+                        <i class="fa-regular fa-clock text-amber-500"></i>
+                        <span id="runner-timer" class="font-mono font-bold text-gray-800 dark:text-gray-200 text-sm sm:text-base">04:00:00</span>
+                    </div>
+                    <button onclick="confirmFinishSimulado()" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm font-bold rounded-xl transition-all shadow-md">
+                        Finalizar e Entregar
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                <div class="lg:col-span-3 bg-white dark:bg-darkcard p-6 rounded-2xl border border-gray-200 dark:border-darkborder shadow-sm space-y-6">
+                    <div class="flex items-center justify-between pb-4 border-b border-gray-100 dark:border-gray-800">
+                        <span class="text-xs font-bold text-brand-600 dark:text-brand-400 uppercase tracking-wider" id="runner-q-discipline">Conhecimentos Específicos</span>
+                        <span class="text-xs text-gray-400 font-semibold" id="runner-q-index-text">Questão 1 de 60</span>
+                    </div>
+                    <div class="text-sm sm:text-base text-gray-800 dark:text-gray-200 font-medium leading-relaxed space-y-3" id="runner-q-text"></div>
+                    <div class="space-y-3 pt-2" id="runner-options-container"></div>
+                    <div class="flex justify-between items-center pt-4 border-t border-gray-100 dark:border-gray-800">
+                        <button id="runner-prev-btn" onclick="prevQuestion()" class="px-4 py-2 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold text-xs sm:text-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                            <i class="fa-solid fa-chevron-left mr-1"></i> Anterior
+                        </button>
+                        <button id="runner-next-btn" onclick="nextQuestion()" class="px-4 py-2 rounded-xl bg-brand-600 text-white font-bold text-xs sm:text-sm hover:bg-brand-700 transition-colors shadow-md">
+                            Próxima <i class="fa-solid fa-chevron-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-darkcard p-5 rounded-2xl border border-gray-200 dark:border-darkborder shadow-sm space-y-4 h-fit">
+                    <h3 class="font-bold text-sm text-gray-900 dark:text-white uppercase tracking-wider">Cartão de Respostas</h3>
+                    <div class="grid grid-cols-5 gap-2 max-h-80 overflow-y-auto custom-scrollbar p-1" id="runner-answer-grid"></div>
+                    <div class="text-[11px] text-gray-400 space-y-1 pt-2 border-t border-gray-100 dark:border-gray-800">
+                        <div class="flex items-center space-x-2"><span class="w-3 h-3 rounded bg-brand-600 inline-block"></span><span>Respondida</span></div>
+                        <div class="flex items-center space-x-2"><span class="w-3 h-3 rounded bg-gray-200 dark:bg-gray-700 inline-block"></span><span>Pendente</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= GABARITO E RESULTADO FINAL ================= -->
+        <section id="tab-resultado" class="tab-content hidden space-y-6">
+            <div class="bg-white dark:bg-darkcard p-6 rounded-2xl border border-gray-200 dark:border-darkborder shadow-md space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 dark:border-gray-800 pb-4">
+                    <div>
+                        <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Gabarito Oficial & Análise</span>
+                        <h2 class="text-2xl font-extrabold text-gray-900 dark:text-white" id="res-title">Resultado do Simulado</h2>
+                    </div>
+                    <button onclick="switchTab('dashboard')" class="px-4 py-2 bg-brand-600 text-white rounded-xl font-bold text-xs sm:text-sm hover:bg-brand-700 transition-all shadow-md">
+                        Voltar ao Dashboard
+                    </button>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-200/60 dark:border-gray-700">
+                        <div class="text-xs text-gray-400 uppercase font-semibold">Nota Final</div>
+                        <div class="text-2xl font-black text-brand-600 dark:text-brand-400" id="res-score">0 / 60</div>
+                    </div>
+                    <div class="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-200/60 dark:border-gray-700">
+                        <div class="text-xs text-gray-400 uppercase font-semibold">Porcentagem</div>
+                        <div class="text-2xl font-black text-gray-900 dark:text-white" id="res-percent">0%</div>
+                    </div>
+                    <div class="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-200/60 dark:border-gray-700">
+                        <div class="text-xs text-gray-400 uppercase font-semibold">Tempo Utilizado</div>
+                        <div class="text-2xl font-black text-gray-900 dark:text-white" id="res-time">00:00</div>
+                    </div>
+                    <div class="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-200/60 dark:border-gray-700">
+                        <div class="text-xs text-gray-400 uppercase font-semibold">Status de Aprovação</div>
+                        <div class="text-sm font-extrabold mt-1" id="res-status-badge">Analisando...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-darkcard p-6 rounded-2xl border border-gray-200 dark:border-darkborder shadow-sm space-y-6">
+                <h3 class="font-extrabold text-lg text-gray-900 dark:text-white">Correção Detalhada Questão por Questão</h3>
+                <div id="res-questions-list" class="space-y-6 divide-y divide-gray-100 dark:divide-gray-800"></div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- MOBILE NAVIGATION BAR (BOTTOM) -->
+    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-darkcard border-t border-gray-200 dark:border-darkborder z-30 flex justify-around py-2 shadow-lg">
+        <button onclick="switchTab('dashboard')" class="flex flex-col items-center text-xs text-brand-600 dark:text-brand-400"><i class="fa-solid fa-chart-pie text-lg"></i><span class="mt-0.5">Dash</span></button>
+        <button onclick="switchTab('simulados')" class="flex flex-col items-center text-xs text-gray-500 dark:text-gray-400"><i class="fa-solid fa-list-check text-lg"></i><span class="mt-0.5">Simulados</span></button>
+        <button onclick="switchTab('semana')" class="flex flex-col items-center text-xs text-gray-500 dark:text-gray-400"><i class="fa-solid fa-calendar-week text-lg"></i><span class="mt-0.5">Semana</span></button>
+        <button onclick="switchTab('guia')" class="flex flex-col items-center text-xs text-gray-500 dark:text-gray-400"><i class="fa-solid fa-compass text-lg"></i><span class="mt-0.5">Guia</span></button>
+        <button onclick="switchTab('ranking')" class="flex flex-col items-center text-xs text-gray-500 dark:text-gray-400"><i class="fa-solid fa-trophy text-lg"></i><span class="mt-0.5">Rank</span></button>
+    </div>
+
+    <!-- MODAL ESPECIALIDADE -->
+    <div id="modal-specialty" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white dark:bg-darkcard max-w-md w-full p-6 rounded-2xl border border-gray-200 dark:border-darkborder shadow-2xl space-y-5">
+            <div class="flex justify-between items-center">
+                <h3 class="font-extrabold text-lg text-gray-900 dark:text-white" id="modal-inst-title">Escolha a Especialidade</h3>
+                <button onclick="closeSpecialtyModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Selecione o seu cargo técnico para ajustar a disciplina específica do simulado:</p>
+            
+            <div class="space-y-2 max-h-72 overflow-y-auto pr-1">
+                <button onclick="confirmStartSimulado('Eletrônica')" class="w-full text-left p-3.5 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-brand-500 dark:hover:border-brand-500 bg-gray-50 dark:bg-gray-800/40 font-semibold text-xs sm:text-sm text-gray-800 dark:text-gray-200 flex justify-between items-center transition-all">
+                    <span>Técnico em Eletrônica</span><i class="fa-solid fa-microchip text-brand-500"></i>
+                </button>
+                <button onclick="confirmStartSimulado('Mecânica')" class="w-full text-left p-3.5 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-brand-500 dark:hover:border-brand-500 bg-gray-50 dark:bg-gray-800/40 font-semibold text-xs sm:text-sm text-gray-800 dark:text-gray-200 flex justify-between items-center transition-all">
+                    <span>Técnico em Mecânica</span><i class="fa-solid fa-gears text-brand-500"></i>
+                </button>
+                <button onclick="confirmStartSimulado('Instrumentação')" class="w-full text-left p-3.5 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-brand-500 dark:hover:border-brand-500 bg-gray-50 dark:bg-gray-800/40 font-semibold text-xs sm:text-sm text-gray-800 dark:text-gray-200 flex justify-between items-center transition-all">
+                    <span>Técnico em Instrumentação</span><i class="fa-solid fa-gauge-high text-brand-500"></i>
+                </button>
+                <button onclick="confirmStartSimulado('Automação')" class="w-full text-left p-3.5 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-brand-500 dark:hover:border-brand-500 bg-gray-50 dark:bg-gray-800/40 font-semibold text-xs sm:text-sm text-gray-800 dark:text-gray-200 flex justify-between items-center transition-all">
+                    <span>Técnico em Automação</span><i class="fa-solid fa-robot text-brand-500"></i>
+                </button>
+                <button onclick="confirmStartSimulado('Segurança do Trabalho')" class="w-full text-left p-3.5 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-brand-500 dark:hover:border-brand-500 bg-gray-50 dark:bg-gray-800/40 font-semibold text-xs sm:text-sm text-gray-800 dark:text-gray-200 flex justify-between items-center transition-all">
+                    <span>Técnico em Segurança do Trabalho</span><i class="fa-solid fa-hard-hat text-brand-500"></i>
+                </button>
+                <button onclick="confirmStartSimulado('Meio Ambiente')" class="w-full text-left p-3.5 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-brand-500 dark:hover:border-brand-500 bg-gray-50 dark:bg-gray-800/40 font-semibold text-xs sm:text-sm text-gray-800 dark:text-gray-200 flex justify-between items-center transition-all">
+                    <span>Técnico em Meio Ambiente</span><i class="fa-solid fa-leaf text-brand-500"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL PERFIL DO USUÁRIO -->
+    <div id="modal-profile" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white dark:bg-darkcard max-w-md w-full p-6 rounded-2xl border border-gray-200 dark:border-darkborder shadow-2xl space-y-4">
+            <div class="flex justify-between items-center">
+                <h3 class="font-extrabold text-lg text-gray-900 dark:text-white">Editar Perfil de Candidato</h3>
+                <button onclick="closeProfileModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="space-y-3">
+                <div>
+                    <label class="text-xs font-bold text-gray-600 dark:text-gray-400">Nome ou Apelido</label>
+                    <input type="text" id="input-profile-name" class="w-full mt-1 px-3 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl text-sm font-medium text-gray-900 dark:text-white">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-gray-600 dark:text-gray-400">Especialidade Principal</label>
+                    <select id="input-profile-specialty" class="w-full mt-1 px-3 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl text-sm font-medium text-gray-900 dark:text-white">
+                        <option value="Eletrônica">Eletrônica</option>
+                        <option value="Mecânica">Mecânica</option>
+                        <option value="Instrumentação">Instrumentação</option>
+                        <option value="Automação">Automação</option>
+                        <option value="Segurança do Trabalho">Segurança do Trabalho</option>
+                        <option value="Meio Ambiente">Meio Ambiente</option>
+                    </select>
+                </div>
+                <button onclick="saveProfile()" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl text-sm transition-all shadow-md mt-2">
+                    Salvar Alterações
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT APPLICATION LOGIC -->
+    <script>
+        const APP_STATE = {
+            user: { name: "Candidato Tech", specialty: "Eletrônica" },
+            history: [],
+            weeklyData: { 0: { questions: 0, timeSec: 0, correct: 0 }, 1: { questions: 0, timeSec: 0, correct: 0 }, 2: { questions: 0, timeSec: 0, correct: 0 }, 3: { questions: 0, timeSec: 0, correct: 0 }, 4: { questions: 0, timeSec: 0, correct: 0 }, 5: { questions: 0, timeSec: 0, correct: 0 }, 6: { questions: 0, timeSec: 0, correct: 0 } },
+            activeSimulado: null,
+            timerInterval: null
+        };
+
+        const BENCHMARK_DATA = [
+            { inst: "transpetro", conc: "Transpetro 2023", cargo: "Técnico de Manutenção - Eletrônica", corte1: "88.3%", corteCR: "78.0%", banca: "Cesgranrio" },
+            { inst: "transpetro", conc: "Transpetro 2023", cargo: "Técnico de Segurança do Trabalho", corte1: "89.0%", corteCR: "79.2%", banca: "Cesgranrio" },
+            { inst: "eletronuclear", conc: "Eletronuclear 2022", cargo: "Técnico em Eletrônica / Operação", corte1: "82.0%", corteCR: "72.0%", banca: "FGV" },
+            { inst: "eletronuclear", conc: "Eletronuclear 2022", cargo: "Técnico em Meio Ambiente", corte1: "83.5%", corteCR: "73.0%", banca: "FGV" },
+            { inst: "nuclep", conc: "NUCLEP 2024", cargo: "Técnico em Instrumentação", corte1: "84.0%", corteCR: "74.0%", banca: "IDECAN" },
+            { inst: "eletrobras", conc: "Furnas / Eletrobras 2023", cargo: "Técnico de Proteção e Automação", corte1: "86.5%", corteCR: "76.0%", banca: "IAVIN" }
+        ];
+
+        function shuffleArray(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function processQuestionWithShuffledOptions(rawQ) {
+            const indices = [0, 1, 2, 3, 4];
+            const validIndices = indices.slice(0, rawQ.options.length);
+            const shuffledIndices = shuffleArray(validIndices);
+            const shuffledOpts = shuffledIndices.map(idx => rawQ.options[idx]);
+            const newCorrectIndex = shuffledIndices.indexOf(rawQ.correctIndex);
+            return { id: rawQ.id || Math.random(), discipline: rawQ.discipline, text: rawQ.text, options: shuffledOpts, correctIndex: newCorrectIndex, comment: rawQ.comment };
+        }
+
+        function generatePortuguesQuestions(quantity, institution) {
+            const templates = [
+                {
+                    text: "Assinale a alternativa em que a concordância verbal está de acordo com a norma-padrão da língua escrita:",
+                    opts: [
+                        "A) Faziam três anos que os técnicos não realizavam a calibração dos transmissores.",
+                        "B) Deve haver critérios mais rigorosos na inspeção de solda de vasos de pressão.",
+                        "C) Tratam-se de falhas recorrentes nos sistemas de automação de processos.",
+                        "D) Haviam muitos candidatos inscritos no processo seletivo da Transpetro.",
+                        "E) Aluga-se computadores de vazão para testes em campo."
+                    ],
+                    correct: 1,
+                    comment: "O verbo 'haver' no sentido de existir é impessoal e transmite sua impessoalidade ao auxiliar 'dever' (Deve haver)."
+                },
+                {
+                    text: "No que se refere à regência e ao uso do sinal indicativo de crase, assinale a opção correta:",
+                    opts: [
+                        "A) O relatório técnico foi encaminhado à gerência de manutenção preventiva.",
+                        "B) A equipe procedeu a revisão das tubulações sem solicitação prévia.",
+                        "C) O especialista referiu-se à equipamentos de alta precisão.",
+                        "D) Todos os operadores atenderam à chamados de emergência no terminal.",
+                        "E) A norma aplica-se à partir da publicação do edital."
+                    ],
+                    correct: 0,
+                    comment: "Crase correta antes de palavra feminina determinada ('à gerência'). Não há crase antes de verbo ('a partir') nem de palavra masculina."
+                },
+                {
+                    text: "Considere a pontuação no período: 'Os operadores, que concluíram o treinamento de segurança, receberam a certificação.' A oração destacada é:",
+                    opts: [
+                        "A) Subordinada adjetiva explicativa.",
+                        "B) Subordinada adjetiva restritiva.",
+                        "C) Subordinada adverbial causal.",
+                        "D) Subordinada substantiva objetiva direta.",
+                        "E) Coordenada sindética explicativa."
+                    ],
+                    correct: 0,
+                    comment: "A oração relativa entre vírgulas possui valor explicativo."
+                }
+            ];
+            const pool = [];
+            for (let i = 0; i < quantity; i++) {
+                const t = templates[i % templates.length];
+                pool.push({ discipline: "Língua Portuguesa", text: `(Português - Q${i+1}) ${t.text}`, options: t.opts, correctIndex: t.correct, comment: t.comment });
+            }
+            return shuffleArray(pool).map(q => processQuestionWithShuffledOptions(q));
+        }
+
+        function generateMatematicaQuestions(quantity, institution) {
+            const templates = [
+                {
+                    text: "Um reservatório cilíndrico possui 10 metros de altura e raio da base medindo 3 metros. Considerando π = 3,14, qual é o volume total aproximado em m³?",
+                    opts: ["A) 282,6 m³", "B) 188,4 m³", "C) 94,2 m³", "D) 314,0 m³", "E) 141,3 m³"],
+                    correct: 0,
+                    comment: "V = π * r² * h = 3,14 * (3)² * 10 = 282,6 m³."
+                },
+                {
+                    text: "Se a pressão exceder 5 bar, então a válvula de alívio é acionada. A negação equivalente dessa proposição lógica é:",
+                    opts: [
+                        "A) A pressão excede 5 bar E a válvula de alívio não é acionada.",
+                        "B) Se a pressão não exceder 5 bar, a válvula não é acionada.",
+                        "C) A pressão não excede 5 bar OU a válvula de alívio é acionada.",
+                        "D) A pressão não excede 5 bar E a válvula é acionada.",
+                        "E) Se a válvula for acionada, então a pressão excedeu 5 bar."
+                    ],
+                    correct: 0,
+                    comment: "A negação de P -> Q é dada por P ∧ ~Q."
+                }
+            ];
+            const pool = [];
+            for (let i = 0; i < quantity; i++) {
+                const t = templates[i % templates.length];
+                pool.push({ discipline: "Matemática & RLM", text: `(Matemática/RLM - Q${i+1}) ${t.text}`, options: t.opts, correctIndex: t.correct, comment: t.comment });
+            }
+            return shuffleArray(pool).map(q => processQuestionWithShuffledOptions(q));
+        }
+
+        function generateLegislacaoQuestions(quantity) {
+            const templates = [
+                {
+                    text: "A NR-10 estabelece que trabalhos em Sistemas Elétricos de Potência (SEP) exigem:",
+                    opts: [
+                        "A) Treinamento específico em Segurança em Sistema Elétrico de Potência (SEP).",
+                        "B) Apenas autorização verbal do supervisor imediato.",
+                        "C) Isenção do uso de Equipamento de Proteção Individual (EPI).",
+                        "D) Certificação exclusiva expedida por órgãos internacionais."
+                    ],
+                    correct: 0,
+                    comment: "A NR-10 exige treinamento de segurança complementar para trabalhadores que intervêm no SEP."
+                }
+            ];
+            const pool = [];
+            for (let i = 0; i < quantity; i++) {
+                const t = templates[i % templates.length];
+                pool.push({ discipline: "Legislação & Normas", text: `(Legislação - Q${i+1}) ${t.text}`, options: t.opts, correctIndex: t.correct, comment: t.comment });
+            }
+            return shuffleArray(pool).map(q => processQuestionWithShuffledOptions(q));
+        }
+
+        function generateTecnicasQuestions(quantity, specialty) {
+            const poolsBySpecialty = {
+                "Eletrônica": [
+                    { text: "Em um amplificador operacional inversor com R1 = 10 kΩ e Rf = 100 kΩ, qual é o ganho (Av)?", options: ["A) -10", "B) +10", "C) -100", "D) +1", "E) -0.1"], correctIndex: 0, comment: "Av = - (Rf / R1) = -10." }
+                ],
+                "Mecânica": [
+                    { text: "A propriedade que mede a capacidade de absorver energia elástica até o limite de escoamento é:", options: ["A) Resiliência", "B) Tenacidade", "C) Ductilidade", "D) Dureza"], correctIndex: 0, comment: "Resiliência é a energia elástica absorvida até o escoamento." }
+                ],
+                "Instrumentação": [
+                    { text: "Um transmissor de 4 a 20 mA mede 0 a 100 bar. A 50 bar, a corrente será de:", options: ["A) 12 mA", "B) 10 mA", "C) 8 mA", "D) 16 mA"], correctIndex: 0, comment: "Span = 16 mA. A 50% = 4 + 8 = 12 mA." }
+                ],
+                "Automação": [
+                    { text: "A sequência cíclica de leitura de entradas, execução da lógica e atualização de saídas em um CLP é chamada de:", options: ["A) Ciclo de Varredura (Scan Cycle)", "B) Bootstrapping", "C) Compilação JIT"], correctIndex: 0, comment: "O ciclo de varredura (scan) executa essas três etapas continuamente." }
+                ],
+                "Segurança do Trabalho": [
+                    {
+                        text: "De acordo com a NR-33 (Espaços Confinados), a Permissão de Entrada e Trabalho (PET) deve ser emitida:",
+                        options: [
+                            "A) Antes do ingresso de trabalhadores no espaço confinado.",
+                            "B) Apenas após a conclusão dos trabalhos e resgate.",
+                            "C) Semanalmente pela CIPA da empresa.",
+                            "D) Exclusivamente pelo Ministério do Trabalho e Emprego."
+                        ],
+                        correctIndex: 0,
+                        comment: "A PET é o documento contendo as medidas de segurança, emitida obrigatoriamente antes do início das atividades."
+                    },
+                    {
+                        text: "Segundo a NR-6, todo Equipamento de Proteção Individual (EPI) comercializado deve possuir:",
+                        options: [
+                            "A) Certificado de Aprovação (CA) emitido pelo órgão competente em segurança e saúde no trabalho.",
+                            "B) Apenas certificação internacional opcional de qualidade.",
+                            "C) Selo de fabricação impresso em etiqueta simples sem registro."
+                        ],
+                        correctIndex: 0,
+                        comment: "O CA (Certificado de Aprovação) emitido pelo MTE é obrigatório para comercialização e uso de EPIs."
+                    },
+                    {
+                        text: "Conforme a NR-35, considera-se trabalho em altura toda atividade executada acima de:",
+                        options: ["A) 2,00 metros do nível inferior, onde haja risco de queda.", "B) 1,50 metros do nível inferior.", "C) 3,00 metros do piso acabado."],
+                        correctIndex: 0,
+                        comment: "A altura limite estipulada pela NR-35 para caracterizar trabalho em altura é de 2,00 metros."
+                    }
+                ],
+                "Meio Ambiente": [
+                    {
+                        text: "De acordo com a Política Nacional de Resíduos Sólidos (Lei nº 12.305/2010), a ordem correta de prioridade na gestão de resíduos é:",
+                        options: [
+                            "A) Não geração, redução, reutilização, reciclagem, tratamento e disposição final adequada.",
+                            "B) Disposição em aterro sanitário direto, incineração e reciclagem opcional.",
+                            "C) Reciclagem obrigatória imediata sem etapas prévias."
+                        ],
+                        correctIndex: 0,
+                        comment: "A Lei 12.305/10 define a hierarquia: não geração > redução > reutilização > reciclagem > tratamento > disposição final."
+                    },
+                    {
+                        text: "O Estudo de Impacto Ambiental (EIA) e o RIMA são exigidos para licenciamento de atividades:",
+                        options: [
+                            "A) Consideradas efetiva ou potencialmente causadoras de significativa degradação do meio ambiente.",
+                            "B) Exclusivamente localizadas em áreas urbanas consolidadas.",
+                            "C) De pequeno porte sem qualquer potencial poluidor."
+                        ],
+                        correctIndex: 0,
+                        comment: "Conforme a Resolução CONAMA nº 01/86, o EIA/RIMA é obrigatório para atividades de significativa degradação ambiental."
+                    },
+                    {
+                        text: "A norma ISO 14001 estabelece os requisitos para implantação de:",
+                        options: [
+                            "A) Um Sistema de Gestão Ambiental (SGA) voltado à melhoria contínua e conformidade legal.",
+                            "B) Um plano exclusivo de auditoria contábil e fiscal de carbono.",
+                            "C) Normas estritas de segurança patrimonial industrial."
+                        ],
+                        correctIndex: 0,
+                        comment: "A ISO 14001 fornece diretrizes para estruturar um SGA eficaz nas empresas."
+                    }
+                ]
+            };
+
+            // Busca pelo nome ou chave padrão
+            const templates = poolsBySpecialty[specialty] || poolsBySpecialty["Eletrônica"];
+            const pool = [];
+            for (let i = 0; i < quantity; i++) {
+                const t = templates[i % templates.length];
+                pool.push({
+                    discipline: `Conhecimentos Específicos - ${specialty}`,
+                    text: `(Técnico em ${specialty} - Q${i+1}) ${t.text}`,
+                    options: t.options,
+                    correctIndex: t.correctIndex,
+                    comment: t.comment
+                });
+            }
+            return shuffleArray(pool).map(q => processQuestionWithShuffledOptions(q));
+        }
+
+        function generateQuestionBank(institution, specialty) {
+            let bank = [];
+            if (institution === 'transpetro') {
+                bank = [...generatePortuguesQuestions(10, 'transpetro'), ...generateMatematicaQuestions(10, 'transpetro'), ...generateTecnicasQuestions(40, specialty)];
+            } else if (institution === 'eletronuclear') {
+                bank = [...generatePortuguesQuestions(8, 'eletronuclear'), ...generateMatematicaQuestions(7, 'eletronuclear'), ...generateTecnicasQuestions(35, specialty)];
+            } else if (institution === 'nuclep') {
+                bank = [...generatePortuguesQuestions(10, 'nuclep'), ...generateMatematicaQuestions(10, 'nuclep'), ...generateTecnicasQuestions(30, specialty)];
+            } else if (institution === 'eletrobras') {
+                bank = [...generatePortuguesQuestions(8, 'eletrobras'), ...generateLegislacaoQuestions(7), ...generateTecnicasQuestions(45, specialty)];
+            }
+            return bank.map((q, idx) => { q.id = idx + 1; return q; });
+        }
+
+        window.onload = function() {
+            loadFromLocalStorage();
+            renderProfile();
+            updateDashboardStats();
+            renderWeeklyView();
+            renderBenchmarkTable();
+            renderDiagnostico();
+        };
+
+        function saveToLocalStorage() {
+            localStorage.setItem('dantas_tech_state', JSON.stringify({ user: APP_STATE.user, history: APP_STATE.history, weeklyData: APP_STATE.weeklyData }));
+        }
+
+        function loadFromLocalStorage() {
+            const saved = localStorage.getItem('dantas_tech_state');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    if (parsed.user) APP_STATE.user = parsed.user;
+                    if (parsed.history) APP_STATE.history = parsed.history;
+                    if (parsed.weeklyData) APP_STATE.weeklyData = parsed.weeklyData;
+                } catch(e) { console.error(e); }
+            }
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                icon.className = 'fa-solid fa-sun text-amber-500';
+            } else {
+                html.classList.add('dark');
+                icon.className = 'fa-solid fa-moon';
+            }
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            const target = document.getElementById(`tab-${tabId}`);
+            if (target) target.classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.className = 'nav-btn px-3 py-2 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all';
+            });
+            const activeNav = document.getElementById(`nav-${tabId}`);
+            if (activeNav) activeNav.className = 'nav-btn px-3 py-2 rounded-lg text-sm font-medium transition-all text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-900/30';
+
+            if (tabId === 'dashboard') updateDashboardStats();
+            if (tabId === 'semana') renderWeeklyView();
+            if (tabId === 'guia') renderDiagnostico();
+        }
+
+        function openProfileModal() {
+            document.getElementById('input-profile-name').value = APP_STATE.user.name;
+            document.getElementById('input-profile-specialty').value = APP_STATE.user.specialty;
+            document.getElementById('modal-profile').classList.remove('hidden');
+        }
+
+        function closeProfileModal() { document.getElementById('modal-profile').classList.add('hidden'); }
+
+        function saveProfile() {
+            APP_STATE.user.name = document.getElementById('input-profile-name').value || "Candidato Tech";
+            APP_STATE.user.specialty = document.getElementById('input-profile-specialty').value;
+            saveToLocalStorage();
+            renderProfile();
+            closeProfileModal();
+        }
+
+        function renderProfile() {
+            document.getElementById('user-display-name').innerText = APP_STATE.user.name;
+            document.getElementById('user-display-specialty').innerText = APP_STATE.user.specialty;
+            document.getElementById('dash-user-specialty').innerText = `Técnico em ${APP_STATE.user.specialty}`;
+            const initials = APP_STATE.user.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+            document.getElementById('user-avatar-initials').innerText = initials || "DT";
+        }
+
+        function updateDashboardStats() {
+            let totalQ = 0, totalCorrect = 0, totalTime = 0;
+            APP_STATE.history.forEach(item => { totalQ += item.totalQuestions; totalCorrect += item.correctCount; totalTime += item.timeSpentSec; });
+            const overallTaxa = totalQ > 0 ? ((totalCorrect / totalQ) * 100).toFixed(1) : "0.0";
+            const hours = Math.floor(totalTime / 3600), mins = Math.floor((totalTime % 3600) / 60);
+
+            document.getElementById('stat-taxa-geral').innerText = `${overallTaxa}%`;
+            document.getElementById('stat-simulados-concluidos').innerText = APP_STATE.history.length;
+            document.getElementById('stat-total-questoes').innerText = totalQ;
+            document.getElementById('stat-horas-estudo').innerText = `${String(hours).padStart(2,'0')}h ${String(mins).padStart(2,'0')}m`;
+
+            const listContainer = document.getElementById('dashboard-history-list');
+            if (APP_STATE.history.length === 0) {
+                listContainer.innerHTML = `<div class="text-center py-8 text-gray-400 text-sm"><i class="fa-regular fa-folder-open text-3xl mb-2 block"></i>Nenhum simulado realizado ainda. Comece agora!</div>`;
+            } else {
+                listContainer.innerHTML = APP_STATE.history.slice(-3).reverse().map(item => `
+                    <div class="flex items-center justify-between p-3.5 bg-gray-50 dark:bg-gray-800/40 rounded-xl border border-gray-100 dark:border-gray-700">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-lg bg-brand-100 dark:bg-brand-900/40 text-brand-600 dark:text-brand-400 flex items-center justify-center font-bold text-xs uppercase">${item.inst.substring(0,2)}</div>
+                            <div><h4 class="font-bold text-gray-800 dark:text-gray-200 text-sm">${item.title}</h4><p class="text-xs text-gray-400">${item.date} • ${item.specialty}</p></div>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-sm font-black ${item.percent >= 70 ? 'text-emerald-500' : 'text-amber-500'}">${item.percent}%</span>
+                            <div class="text-[10px] text-gray-400">${item.correctCount}/${item.totalQuestions} acertos</div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function renderWeeklyView() {
+            const daysNames = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+            let weekQ = 0, weekTime = 0, weekCorrect = 0;
+            for (let d = 0; d < 7; d++) { weekQ += APP_STATE.weeklyData[d].questions; weekTime += APP_STATE.weeklyData[d].timeSec; weekCorrect += APP_STATE.weeklyData[d].correct; }
+            const weekTaxa = weekQ > 0 ? ((weekCorrect / weekQ) * 100).toFixed(1) : "0.0";
+            const hours = Math.floor(weekTime / 3600), mins = Math.floor((weekTime % 3600) / 60);
+
+            document.getElementById('semana-total-questoes').innerText = weekQ;
+            document.getElementById('semana-total-tempo').innerText = `${String(hours).padStart(2,'0')}h ${String(mins).padStart(2,'0')}m`;
+            document.getElementById('semana-taxa-acerto').innerText = `${weekTaxa}%`;
+
+            const grid = document.getElementById('week-days-grid');
+            const todayIndex = new Date().getDay();
+            grid.innerHTML = daysNames.map((dayName, idx) => {
+                const data = APP_STATE.weeklyData[idx], isToday = idx === todayIndex, taxa = data.questions > 0 ? Math.round((data.correct / data.questions) * 100) : 0;
+                return `
+                    <div class="p-3.5 rounded-xl border ${isToday ? 'border-brand-500 bg-brand-50/20 dark:bg-brand-950/20' : 'border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/30'} flex flex-col justify-between space-y-2">
+                        <div class="flex justify-between items-center"><span class="text-xs font-bold ${isToday ? 'text-brand-600 dark:text-brand-400' : 'text-gray-500 dark:text-gray-400'}">${dayName}</span>${isToday ? '<span class="text-[9px] bg-brand-500 text-white font-extrabold px-1.5 py-0.2 rounded">HOJE</span>' : ''}</div>
+                        <div><div class="text-lg font-black text-gray-900 dark:text-white">${data.questions} Qs</div><div class="text-[10px] text-gray-400 font-medium">${Math.floor(data.timeSec/60)} min dedicados</div></div>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 overflow-hidden"><div class="bg-brand-500 h-1.5 rounded-full" style="width: ${taxa}%"></div></div>
+                        <div class="text-[10px] text-right text-gray-400 font-semibold">${taxa}% acerto</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function resetWeeklyData() {
+            if (confirm("Deseja realmente zerar todos os registros de estudo da semana atual?")) {
+                for (let d = 0; d < 7; d++) APP_STATE.weeklyData[d] = { questions: 0, timeSec: 0, correct: 0 };
+                saveToLocalStorage();
+                renderWeeklyView();
+            }
+        }
+
+        function renderDiagnostico() {
+            const container = document.getElementById('diagnostico-container');
+            if (APP_STATE.history.length === 0) {
+                container.innerHTML = `
+                    <div class="p-6 rounded-xl border border-dashed border-gray-300 dark:border-gray-700 text-center space-y-3 bg-gray-50/50 dark:bg-gray-800/20">
+                        <div class="w-12 h-12 mx-auto rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xl"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                        <h4 class="font-bold text-gray-800 dark:text-gray-200 text-sm">Nenhum simulado finalizado para gerar análise</h4>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 max-w-md mx-auto">Realize seu primeiro simulado na plataforma para calcular automaticamente sua taxa de acerto por disciplina!</p>
+                        <button onclick="switchTab('simulados')" class="px-4 py-2 bg-brand-600 text-white rounded-xl font-bold text-xs hover:bg-brand-700 transition-all">Ir para Catálogo</button>
+                    </div>
+                `;
+                return;
+            }
+            const statsByDisc = {};
+            APP_STATE.history.forEach(sim => {
+                sim.questions.forEach((q, idx) => {
+                    const disc = q.discipline || "Conhecimentos Específicos";
+                    if (!statsByDisc[disc]) statsByDisc[disc] = { total: 0, correct: 0 };
+                    statsByDisc[disc].total++;
+                    if (sim.userAnswers[idx] === q.correctIndex) statsByDisc[disc].correct++;
+                });
+            });
+            let lowestDisc = null, lowestRate = 101;
+            const discHtml = Object.keys(statsByDisc).map(disc => {
+                const total = statsByDisc[disc].total, correct = statsByDisc[disc].correct, rate = Math.round((correct / total) * 100);
+                if (rate < lowestRate) { lowestRate = rate; lowestDisc = disc; }
+                return `
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-xs font-semibold"><span class="text-gray-700 dark:text-gray-300">${disc}</span><span class="${rate < 70 ? 'text-amber-500' : 'text-emerald-500'}">${rate}% (${correct}/${total})</span></div>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden"><div class="${rate < 70 ? 'bg-amber-500' : 'bg-emerald-500'} h-2 rounded-full" style="width: ${rate}%"></div></div>
+                    </div>
+                `;
+            }).join('');
+            container.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-4"><h4 class="font-bold text-sm text-gray-800 dark:text-gray-200 uppercase tracking-wider">Desempenho por Disciplina</h4><div class="space-y-3">${discHtml}</div></div>
+                    <div class="p-4 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/50 rounded-xl space-y-3">
+                        <div class="flex items-center space-x-2 text-amber-700 dark:text-amber-400 font-bold text-xs uppercase"><i class="fa-solid fa-bullseye text-base"></i><span>Ponto Crítico a Melhorar</span></div>
+                        <h5 class="font-extrabold text-gray-900 dark:text-white text-base">${lowestDisc || "Específica"}</h5>
+                        <p class="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">Seu menor rendimento atual é em <strong>${lowestDisc}</strong> (${lowestRate}% de acerto). Foco recomendado na resolução de questões desta matéria.</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderBenchmarkTable() {
+            const filter = document.getElementById('benchmark-filter').value;
+            const tbody = document.getElementById('benchmark-tbody');
+            const filtered = filter === 'ALL' ? BENCHMARK_DATA : BENCHMARK_DATA.filter(b => b.inst === filter);
+            tbody.innerHTML = filtered.map(item => `
+                <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/45 transition-colors">
+                    <td class="p-4 font-bold text-gray-900 dark:text-white">${item.conc}</td>
+                    <td class="p-4">${item.cargo}</td>
+                    <td class="p-4 text-center font-bold text-emerald-600 dark:text-emerald-400">${item.corte1}</td>
+                    <td class="p-4 text-center font-semibold text-amber-600 dark:text-amber-400">${item.corteCR}</td>
+                    <td class="p-4 text-center text-xs font-semibold px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded-lg">${item.banca}</td>
+                </tr>
+            `).join('');
+        }
+
+        let pendingInst = null;
+        function openSpecialtyModal(inst) {
+            pendingInst = inst;
+            const titles = { transpetro: "Transpetro - Selecione o Cargo", eletronuclear: "Eletronuclear - Selecione o Cargo", nuclep: "NUCLEP - Selecione o Cargo", eletrobras: "Eletrobras/Furnas - Selecione o Cargo" };
+            document.getElementById('modal-inst-title').innerText = titles[inst] || "Selecione o Cargo";
+            document.getElementById('modal-specialty').classList.remove('hidden');
+        }
+
+        function closeSpecialtyModal() { document.getElementById('modal-specialty').classList.add('hidden'); }
+        function confirmStartSimulado(specialty) { closeSpecialtyModal(); startSimulado(pendingInst, specialty); }
+
+        function startSimulado(institution, specialty) {
+            const bank = generateQuestionBank(institution, specialty);
+            APP_STATE.activeSimulado = { institution: institution, specialty: specialty, title: `${institution.toUpperCase()} - Técnico em ${specialty}`, questions: bank, userAnswers: new Array(bank.length).fill(null), currentIndex: 0, secondsElapsed: 0 };
+            switchTab('runner');
+
+            document.getElementById('runner-inst-badge').innerText = institution.toUpperCase();
+            document.getElementById('runner-title').innerText = `Simulado Técnico em ${specialty}`;
+
+            if (APP_STATE.timerInterval) clearInterval(APP_STATE.timerInterval);
+            APP_STATE.timerInterval = setInterval(() => {
+                APP_STATE.activeSimulado.secondsElapsed++;
+                const sec = APP_STATE.activeSimulado.secondsElapsed;
+                const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
+                document.getElementById('runner-timer').innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            }, 1000);
+
+            renderQuestionRunner();
+            renderAnswerGrid();
+        }
+
+        function renderQuestionRunner() {
+            const sim = APP_STATE.activeSimulado, q = sim.questions[sim.currentIndex];
+            document.getElementById('runner-q-discipline').innerText = q.discipline;
+            document.getElementById('runner-q-index-text').innerText = `Questão ${sim.currentIndex + 1} de ${sim.questions.length}`;
+            document.getElementById('runner-q-text').innerText = q.text;
+
+            const optsContainer = document.getElementById('runner-options-container');
+            optsContainer.innerHTML = q.options.map((opt, idx) => {
+                const isSelected = sim.userAnswers[sim.currentIndex] === idx;
+                return `
+                    <button onclick="selectOption(${idx})" class="w-full text-left p-3.5 rounded-xl border text-xs sm:text-sm font-medium transition-all flex items-center justify-between ${isSelected ? 'border-brand-500 bg-brand-50 dark:bg-brand-900/30 text-brand-900 dark:text-brand-200 font-bold' : 'border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/30 text-gray-800 dark:text-gray-200 hover:border-brand-300'}">
+                        <span>${opt}</span>${isSelected ? '<i class="fa-solid fa-circle-check text-brand-500 text-base ml-2"></i>' : '<i class="fa-regular fa-circle text-gray-300 dark:text-gray-600 text-base ml-2"></i>'}
+                    </button>
+                `;
+            }).join('');
+            document.getElementById('runner-prev-btn').disabled = (sim.currentIndex === 0);
+            document.getElementById('runner-prev-btn').style.opacity = (sim.currentIndex === 0) ? "0.5" : "1";
+        }
+
+        function renderAnswerGrid() {
+            const sim = APP_STATE.activeSimulado, grid = document.getElementById('runner-answer-grid');
+            grid.innerHTML = sim.questions.map((q, idx) => {
+                const isAnswered = sim.userAnswers[idx] !== null, isCurrent = sim.currentIndex === idx;
+                return `<button onclick="jumpToQuestion(${idx})" class="h-9 rounded-lg font-bold text-xs transition-all ${isCurrent ? 'ring-2 ring-brand-500 border-2 border-white dark:border-gray-900' : ''} ${isAnswered ? 'bg-brand-600 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200'}">${idx + 1}</button>`;
+            }).join('');
+        }
+
+        function selectOption(optIndex) { APP_STATE.activeSimulado.userAnswers[APP_STATE.activeSimulado.currentIndex] = optIndex; renderQuestionRunner(); renderAnswerGrid(); }
+        function jumpToQuestion(idx) { APP_STATE.activeSimulado.currentIndex = idx; renderQuestionRunner(); renderAnswerGrid(); }
+        function prevQuestion() { if (APP_STATE.activeSimulado.currentIndex > 0) { APP_STATE.activeSimulado.currentIndex--; renderQuestionRunner(); renderAnswerGrid(); } }
+        function nextQuestion() { if (APP_STATE.activeSimulado.currentIndex < APP_STATE.activeSimulado.questions.length - 1) { APP_STATE.activeSimulado.currentIndex++; renderQuestionRunner(); renderAnswerGrid(); } }
+
+        function confirmFinishSimulado() {
+            const unanswered = APP_STATE.activeSimulado.userAnswers.filter(a => a === null).length;
+            let msg = "Deseja realmente finalizar o simulado?";
+            if (unanswered > 0) msg = `Ainda existem ${unanswered} questão(ões) sem resposta. Deseja finalizar assim mesmo?`;
+            if (confirm(msg)) finishSimulado();
+        }
+
+        function finishSimulado() {
+            clearInterval(APP_STATE.timerInterval);
+            const sim = APP_STATE.activeSimulado;
+            let correctCount = 0;
+            sim.questions.forEach((q, idx) => { if (sim.userAnswers[idx] === q.correctIndex) correctCount++; });
+
+            const total = sim.questions.length, percent = Math.round((correctCount / total) * 100), todayIndex = new Date().getDay();
+            APP_STATE.weeklyData[todayIndex].questions += total;
+            APP_STATE.weeklyData[todayIndex].timeSec += sim.secondsElapsed;
+            APP_STATE.weeklyData[todayIndex].correct += correctCount;
+
+            const now = new Date(), dateStr = `${now.getDate().toString().padStart(2,'0')}/${(now.getMonth()+1).toString().padStart(2,'0')}/${now.getFullYear()}`;
+            const historyItem = { id: Date.now(), inst: sim.institution, title: sim.title, specialty: sim.specialty, date: dateStr, totalQuestions: total, correctCount: correctCount, percent: percent, timeSpentSec: sim.secondsElapsed, questions: sim.questions, userAnswers: sim.userAnswers };
+
+            APP_STATE.history.push(historyItem);
+            saveToLocalStorage();
+            renderResultsPage(historyItem);
+            switchTab('resultado');
+        }
+
+        function renderResultsPage(item) {
+            document.getElementById('res-title').innerText = item.title;
+            document.getElementById('res-score').innerText = `${item.correctCount} / ${item.totalQuestions}`;
+            document.getElementById('res-percent').innerText = `${item.percent}%`;
+            const m = Math.floor(item.timeSpentSec / 60), s = item.timeSpentSec % 60;
+            document.getElementById('res-time').innerText = `${String(m).padStart(2,'0')}m ${String(s).padStart(2,'0')}s`;
+
+            const statusBadge = document.getElementById('res-status-badge');
+            if (item.percent >= 80) { statusBadge.className = "text-sm font-extrabold text-emerald-500 mt-1"; statusBadge.innerText = "Aprovado (Excelente)"; }
+            else if (item.percent >= 70) { statusBadge.className = "text-sm font-extrabold text-blue-500 mt-1"; statusBadge.innerText = "Aprovado (Cadastro Reserva)"; }
+            else { statusBadge.className = "text-sm font-extrabold text-amber-500 mt-1"; statusBadge.innerText = "Abaixo da Nota de Corte"; }
+
+            const container = document.getElementById('res-questions-list');
+            container.innerHTML = item.questions.map((q, idx) => {
+                const userAns = item.userAnswers[idx], isCorrect = userAns === q.correctIndex;
+                return `
+                    <div class="pt-4 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-gray-500 uppercase">Questão ${idx + 1} - ${q.discipline}</span>
+                            <span class="text-xs font-bold px-2.5 py-1 rounded-full ${isCorrect ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300' : 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300'}">${isCorrect ? 'Correta' : 'Incorreta'}</span>
+                        </div>
+                        <p class="text-sm font-medium text-gray-800 dark:text-gray-200">${q.text}</p>
+                        <div class="text-xs space-y-1 font-medium">
+                            <p class="${userAns === q.correctIndex ? 'text-emerald-600 dark:text-emerald-400 font-bold' : 'text-gray-500'}">Sua Resposta: ${userAns !== null ? q.options[userAns] : 'Sem Resposta'}</p>
+                            ${!isCorrect ? `<p class="text-emerald-600 dark:text-emerald-400 font-bold">Gabarito Correto: ${q.options[q.correctIndex]}</p>` : ''}
+                        </div>
+                        <div class="p-3 bg-gray-50 dark:bg-gray-800/60 rounded-xl text-xs text-gray-600 dark:text-gray-300 border border-gray-200/60 dark:border-gray-700"><strong>Comentário do Professor:</strong> ${q.comment}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+    </script>
+</body>
+</html>
